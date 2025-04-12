@@ -15,7 +15,7 @@ def get_db_connection():
     except Error as e:
         print(f"Error while connecting to MySQL: {e}")
         return None
-@app.route('/api/swift_codes', methods=['GET'])
+@app.route('/v1/swift_codes', methods=['GET'])
 def get_swift_codes():
     connection = get_db_connection()
     if not connection:
@@ -32,7 +32,7 @@ def get_swift_codes():
         cursor.close()
         connection.close()
 
-@app.route('/api/swift_codes/<swift_code>', methods=['GET'])
+@app.route('/v1/swift_codes/<swift_code>', methods=['GET'])
 def get_swift_code(swift_code):
     connection = get_db_connection()
     if not connection:
@@ -74,7 +74,7 @@ def get_swift_code(swift_code):
                     "swiftCode": branch['swiftCode']
                 })
             response["branches"] = branches
-            return jsonify(response)
+            return jsonify(response),200
     except Error as e:
         return jsonify({"error": f"Error fetching data: {e}"}), 500
     finally:
@@ -82,7 +82,7 @@ def get_swift_code(swift_code):
         connection.close()
 
 
-@app.route('/api/swift_codes/country/<countryISO2code>', methods=['GET'])
+@app.route('/v1/swift_codes/country/<countryISO2code>', methods=['GET'])
 def get_swift_code_by_country(countryISO2code):
     connection = get_db_connection()
     if not connection:
@@ -125,7 +125,7 @@ def validate_swift_code(code):
     return True,""
 
 
-@app.route('/api/swift_codes', methods=['POST'])
+@app.route('/v1/swift_codes', methods=['POST'])
 def create_swift_code():
     new_swiftcode = request.get_json()
     print(new_swiftcode)
@@ -163,7 +163,7 @@ def create_swift_code():
         cursor.close()
         connection.close()
 
-@app.route('/api/swift_codes/<swift_code>', methods=['PUT'])
+@app.route('/v1/swift_codes/<swift_code>', methods=['PUT'])
 def update_swiftcode(swift_code):
     try:
         updated_swiftcode = request.get_json()
@@ -190,7 +190,7 @@ def update_swiftcode(swift_code):
         cursor.close()
         connection.close()
 
-@app.route('/api/swift_codes/<swift_code>', methods=['DELETE'])
+@app.route('/v1/swift_codes/<swift_code>', methods=['DELETE'])
 def delete_swiftcode(swift_code):
     connection = None
     cursor = None

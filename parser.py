@@ -1,15 +1,14 @@
 import pandas as pd
 import mysql.connector
 
-# Функция для парсинга таблицы
-def parse_swift_xlsx(filepath):
-    # Загружаем таблицу с использованием pandas (для Excel)
-    df = pd.read_excel(filepath, header=0)  # header=0, чтобы первая строка была заголовком
 
-    # Показываем столбцы, чтобы убедиться, что все в порядке
+def parse_swift_xlsx(filepath):
+
+    df = pd.read_excel(filepath, header=0)  
+
     print(df.columns)
 
-    # Обрабатываем строки данных
+   
     parsed = []
     for _, row in df.iterrows():
         swift = row['SWIFT CODE'].strip()  # Используем правильное имя столбца
@@ -30,14 +29,13 @@ def parse_swift_xlsx(filepath):
             'bankName': bank_name,
             'countryISO2': country_code,
             'countryName': country_name,
-            'address': address.strip(),  # Используем strip() только если строка
+            'address': address.strip(), 
             'isHeadquarter': is_headquarter,
         })
 
     return parsed
 
 
-# Путь к файлу (убедись, что файл доступен)
 filepath = "Book2.xlsx"
 
 # Парсим файл

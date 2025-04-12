@@ -11,7 +11,7 @@ def client():
 def test_create_swift_code(client):
 
     payload = {
-        "swiftCode": "XYZ1234121",
+        "swiftCode": "XYZ1341211",
         "bankName": "Test Bank",
         "countryISO2": "US",
         "countryName": "United States",
@@ -20,8 +20,8 @@ def test_create_swift_code(client):
     }
     response = client.post('/v1/swift_codes', json=payload)
     assert response.status_code == 201
-    assert response.json['message'] == "SWIFT code XYZ1234 added successfully."
-
+    assert response.json['message'] == "SWIFT code XYZ1341211 added successfully."
+    client.delete('/v1/swift_codes/XYZ1341211')
 
 def test_create_swift_code_for_invalid_data(client):
 
@@ -78,11 +78,24 @@ def test_delete_swift_code(client):
     assert response.status_code == 200
     response = client.delete(f'/v1/swift_codes/{payload["swiftCode"]}')
     assert response.status_code == 200
-    assert f"SWIFT code {payload['swiftCode']} deleted successfully" in response.json['message']
+    assert f"SWIFT code {payload["swiftCode"]} deleted successfully" in response.json['message']
 
+def test_delete_swift_code_not_exist(client):
+    payload = {
+        "swiftCode": "XYZ1212342",
+        "bankName": "Test Bank",
+        "countryISO2": "US",
+        "countryName": "United States",
+        "address": "123 Test St.",
+        "isHeadquarter": True
+    }
+
+    response = client.delete(f'/v1/swift_codes/{payload["swiftCode"]}')
+    assert response.status_code == 404
+    assert f"SWIFT code {payload["swiftCode"]} not found" in response.json['message']
 def test_update_swift_code(client):
     payload = {
-        "swiftCode": "XYZ12340",
+        "swiftCode": "XYZ123401",
         "bankName": "Test Bank",
         "countryISO2": "US",
         "countryName": "United States",
@@ -90,7 +103,7 @@ def test_update_swift_code(client):
         "isHeadquarter": True
     }
     payload2 = {
-        "swiftCode": "XYZ12340",
+        "swiftCode": "XYZ123401",
         "bankName": "Test Bank",
         "countryISO2": "US",
         "countryName": "United States",
@@ -105,3 +118,4 @@ def test_update_swift_code(client):
     get_response = client.get(f'/v1/swift_codes/{payload["swiftCode"]}')
     assert get_response.status_code == 200
     assert get_response.json['address'] == "Latif Imanov365."
+    client.delete("/v1/swift_codes/XYZ123401")

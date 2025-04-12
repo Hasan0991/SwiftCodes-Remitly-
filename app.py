@@ -117,12 +117,20 @@ def get_swift_code_by_country(countryISO2code):
         cursor.close()
         connection.close()
 
-def validate_swift_code(code):
-    required_fields = ["address", "bankName", "countryISO2", "countryName", "isHeadquarter"]
+def validate_swift_code(data):
+    required_fields = ["swiftCode", "bankName", "countryISO2", "countryName", "address", "isHeadquarter"]
     for field in required_fields:
-        if field not in code:
-            return False,f"Missing required field: {field}"
-    return True,""
+        if field not in data:
+            return False, f"Missing field: {field}"
+        if isinstance(data[field], str) and not data[field].strip():
+            return False, f"Field '{field}' cannot be empty"
+    if data["isHeadquarter"] not in [True, False, 0, 1]:
+        return False, "'isHeadquarter' must be a boolean or 0/1"
+    if len(data["countryISO2"]) != 2:
+        return False, "'countryISO2' must be exactly 2 characters"
+    if data["countryISO2"].lower():
+        return False, "'countryISO2' must be uppercase"
+    return True, ""
 
 
 @app.route('/v1/swift_codes', methods=['POST'])

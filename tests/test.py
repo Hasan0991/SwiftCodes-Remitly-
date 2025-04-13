@@ -1,7 +1,7 @@
 import pytest
 from app import app
 import json
-
+from app import validate_swift_code
 @pytest.fixture
 def client():
     with app.test_client() as client:
@@ -79,6 +79,31 @@ def test_delete_swift_code(client):
     response = client.delete(f'/v1/swift_codes/{payload["swiftCode"]}')
     assert response.status_code == 200
     assert f"SWIFT code {payload["swiftCode"]} deleted successfully" in response.json['message']
+def test_swift_code_validation():
+    payload = {
+        "swiftCode": "XYZ1212342",
+        "bankName": "Test Bank",
+        "countryISO2": "us",
+        "countryName": "United States",
+        "address": "123 Test St.",
+        "isHeadquarter": True
+    }
+    valid,message = validate_swift_code(payload)
+    assert valid is False
+    assert message == "'countryISO2' must be uppercase"
+
+def test_missing_fields():
+    payload = {
+        "swiftCode": "XYZ1212342",
+        "bankName": "Test Bank",
+        "countryISO2": "us",
+        "address": "123 Test St.",
+        "isHeadquarter": True
+    }
+    # there is no country name
+    valid, message = validate_swift_code(payload)
+    assert valid is False
+    assert "Missing field:" in message
 
 def test_delete_swift_code_not_exist(client):
     payload = {

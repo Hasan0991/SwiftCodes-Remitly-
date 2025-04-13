@@ -128,7 +128,7 @@ def validate_swift_code(data):
         return False, "'isHeadquarter' must be a boolean or 0/1"
     if len(data["countryISO2"]) != 2:
         return False, "'countryISO2' must be exactly 2 characters"
-    if data["countryISO2"].lower():
+    if data["countryISO2"]==data["countryISO2"].lower():
         return False, "'countryISO2' must be uppercase"
     return True, ""
 

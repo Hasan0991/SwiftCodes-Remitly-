@@ -117,6 +117,22 @@ def test_invalid_countryISO2_length():
     valid, message = validate_swift_code(payload)
     assert valid is False
     assert "must be exactly 2 characters" in message
+
+def test_invalid_isHeadquarter_type():
+    payload = {
+        "swiftCode": "XYZ1234",
+        "bankName": "Test Bank",
+        "countryISO2": "US",
+        "countryName": "United States",
+        "address": "123 Test St.",
+        "isHeadquarter": "yes"
+    }
+    valid, message = validate_swift_code(payload)
+    assert valid is False
+    assert message =="'isHeadquarter' must be a boolean or 0/1"
+
+
+
 def test_delete_swift_code_not_exist(client):
     payload = {
         "swiftCode": "XYZ1212342",

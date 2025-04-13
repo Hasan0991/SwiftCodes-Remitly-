@@ -105,6 +105,18 @@ def test_missing_fields():
     assert valid is False
     assert "Missing field:" in message
 
+def test_invalid_countryISO2_length():
+    payload = {
+        "swiftCode": "XYZ1234",
+        "bankName": "Test Bank",
+        "countryISO2": "USA",
+        "countryName": "United States",
+        "address": "123 Test St.",
+        "isHeadquarter": True
+    }
+    valid, message = validate_swift_code(payload)
+    assert valid is False
+    assert "must be exactly 2 characters" in message
 def test_delete_swift_code_not_exist(client):
     payload = {
         "swiftCode": "XYZ1212342",

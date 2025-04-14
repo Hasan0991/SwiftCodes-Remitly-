@@ -1,5 +1,5 @@
 from aifc import Error
-
+import os
 from flask import jsonify,Flask,request
 import mysql.connector
 
@@ -15,17 +15,30 @@ def get_db_connection():
     except Error as e:
         print(f"Error while connecting to MySQL: {e}")
         return None
+
+
 @app.route('/v1/swift_codes', methods=['GET'])
 def get_swift_codes():
     connection = get_db_connection()
     if not connection:
         return jsonify({'error': 'No database connection'})
     try:
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
         cursor.execute('SELECT * FROM swift_codes')
         swift_codes = cursor.fetchall()
+        response=[]
+        for code in swift_codes:
+            response.append({
+                "address": code['address'],
+                "bankName": code['bankName'],
+                "countryISO2": code['countryISO2'],
+                "countryName": code['countryName'],
+                "isHeadquarter": code['isHeadquarter'],
+                "swiftCode": code['swiftCode']
+            })
 
-        return jsonify(swift_codes)
+
+        return jsonify(response)
     except Error as e:
         return jsonify({'error': f"Error fetching data {e}"}),500
     finally:

@@ -43,8 +43,10 @@ def get_swift_codes():
     except Error as e:
         return jsonify({'error': f"Error fetching data {e}"}),500
     finally:
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['GET'])
 def get_swift_code(swift_code):
@@ -93,9 +95,10 @@ def get_swift_code(swift_code):
     except Error as e:
         return jsonify({"error": f"Error fetching data: {e}"}), 500
     finally:
-        cursor.close()
-        connection.close()
-
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 @app.route('/v1/swift_codes/country/<countryISO2code>', methods=['GET'])
 def get_swift_code_by_country(countryISO2code):
@@ -129,8 +132,10 @@ def get_swift_code_by_country(countryISO2code):
     except Error as e:
         return jsonify({"error": f"Error fetching data: {e}"}), 500
     finally:
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 def validate_swift_code(data):
     required_fields = ["swiftCode", "bankName", "countryISO2", "countryName", "address", "isHeadquarter"]
@@ -183,8 +188,10 @@ def create_swift_code():
         return jsonify({"error": f"Error adding SWIFT code: {e}"}), 500
 
     finally:
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['PUT'])
 def update_swiftcode(swift_code):
@@ -217,6 +224,7 @@ def update_swiftcode(swift_code):
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['DELETE'])
 def delete_swiftcode(swift_code):
+    cursor = None
     try:
         connection = get_db_connection()
         if not connection:
@@ -232,8 +240,10 @@ def delete_swiftcode(swift_code):
     except Error as e:
         return jsonify({"error": f"Error deleting SWIFT code: {e}"}), 500
     finally:
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)

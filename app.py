@@ -188,7 +188,6 @@ def create_swift_code():
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['PUT'])
 def update_swiftcode(swift_code):
-    connection = None
     cursor = None
     connection = get_db_connection()
     if not connection:
@@ -218,8 +217,6 @@ def update_swiftcode(swift_code):
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['DELETE'])
 def delete_swiftcode(swift_code):
-    connection = None
-    cursor = None
     try:
         connection = get_db_connection()
         if not connection:

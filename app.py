@@ -188,16 +188,17 @@ def create_swift_code():
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['PUT'])
 def update_swiftcode(swift_code):
+    connection = None
+    cursor = None
+    connection = get_db_connection()
+    if not connection:
+        return jsonify({"error": "Failed to connect to the database"}), 500
     try:
         updated_swiftcode = request.get_json()
         valid,error_message=validate_swift_code(updated_swiftcode)
         if not valid:
             return jsonify({"error": error_message}), 400
-        connection = get_db_connection()
-        if not connection:
-            return jsonify({"error": "Failed to connect to the database"}), 500
-
-        cursor = connection.cursor()
+        cursor = connection.cursor(dictionary=True)
         cursor.execute('''UPDATE swift_codes SET bankName = %s, countryISO2 = %s, countryName = %s, 
                           address = %s, isHeadquarter = %s WHERE swiftCode = %s''',
                        (updated_swiftcode['bankName'], updated_swiftcode['countryISO2'],
@@ -210,8 +211,10 @@ def update_swiftcode(swift_code):
     except Error as e:
         return jsonify({"error": f"Error updating SWIFT code: {e}"}), 500
     finally:
-        cursor.close()
-        connection.close()
+        if cursor:
+            cursor.close()
+        if connection:
+            connection.close()
 
 @app.route('/v1/swift_codes/<swift_code>', methods=['DELETE'])
 def delete_swiftcode(swift_code):

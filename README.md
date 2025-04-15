@@ -27,9 +27,10 @@ This project is a RESTful API developed using Flask that provides CRUD operation
 ## Installation
 
 1. **Clone the repository**:
- 
-    git clone https://github.com/yourusername/swift-code-api.git
-    cd swift-code-api
+
+```bash 
+git clone https://github.com/yourusername/swift-code-api.git
+cd swift-code-api
 
 Set up environment variables (you can create a .env file or set them manually):
 

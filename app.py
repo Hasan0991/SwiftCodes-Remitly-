@@ -7,10 +7,11 @@ app = Flask(__name__)
 def get_db_connection():
     try:
         return mysql.connector.connect(
-            host='localhost',
-            user='root',
-            password='hasan099',
-            database='swift'
+            host=os.getenv('DB_HOST', 'db'),
+            port=int(os.getenv('DB_PORT', 3306)),
+            user=os.getenv('DB_USER', 'root'),
+            password=os.getenv('DB_PASSWORD', 'hasan099'),
+            database=os.getenv('DB_NAME', 'swift')
         )
     except Error as e:
         print(f"Error while connecting to MySQL: {e}")
@@ -88,6 +89,7 @@ def get_swift_code(swift_code):
                 })
             response["branches"] = branches
             return jsonify(response),200
+        return jsonify(response),200
     except Error as e:
         return jsonify({"error": f"Error fetching data: {e}"}), 500
     finally:

@@ -26,10 +26,9 @@ This project is a RESTful API developed using Flask that provides CRUD operation
 
 ## Installation
 
+1. **Clone the repository**:
 
-### 1. Clone the repository
-
-```bash
+bash 
 git clone https://github.com/yourusername/swift-code-api.git
 cd swift-code-api
 

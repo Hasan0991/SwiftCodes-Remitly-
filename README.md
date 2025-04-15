@@ -27,18 +27,17 @@ This project is a RESTful API developed using Flask that provides CRUD operation
 ## Installation
 
 1. **Clone the repository**:
+ 
+    git clone https://github.com/yourusername/swift-code-api.git
+    cd swift-code-api
 
-   ```bash
-   git clone https://github.com/yourusername/swift-code-api.git
-   cd swift-code-api
+Set up environment variables (you can create a .env file or set them manually):
 
-    Set up environment variables (you can create a .env file or set them manually):
-
-DB_HOST=db
-DB_PORT=3306
-DB_USER=root
-DB_PASSWORD=hasan099
-DB_NAME=swift
+    DB_HOST=db
+    DB_PORT=3306
+    DB_USER=root
+    DB_PASSWORD=hasan099
+    DB_NAME=swift
 
 Install dependencies (If you're running without Docker, install Flask and MySQL connector):
 

@@ -9,7 +9,7 @@ This project is a RESTful API developed using Flask that provides CRUD operation
 - [API Endpoints](#api-endpoints)
   - [GET /v1/swift_codes](#get-v1swift_codes)
   - [GET /v1/swift_codes/<swift_code>](#get-v1swift_codesswift_code)
-  - [GET /v1/swift_codes/country/<countryISO2code>](#get-v1swift_codescountrycountryiso2code)
+  - [GET /v1/swift_codes/country/{countryISO2code}](#get-v1swift_codescountrycountryiso2code)
   - [POST /v1/swift_codes](#post-v1swift_codes)
   - [PUT /v1/swift_codes/<swift_code>](#put-v1swift_codesswift_code)
   - [DELETE /v1/swift_codes/<swift_code>](#delete-v1swift_codesswift_code)
@@ -145,7 +145,7 @@ Response:
   "message": "SWIFT code US123458 deleted successfully."
 }
 
-## GET /v1/swift_codes/country/<countryISO2code>
+## GET /v1/swift_codes/country/{countryISO2code}
 
 Retrieve all SWIFT codes for a specific country.
 

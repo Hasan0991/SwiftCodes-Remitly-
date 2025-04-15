@@ -174,9 +174,9 @@ Response:
 
 To run tests for the application, you can use pytest to verify that all your endpoints work as expected:
 
-    Install pytest:
+Install pytest:
 
-pip install pytest
+    pip install pytest
 
 Run tests:
 
@@ -185,12 +185,12 @@ Run tests:
 ## Docker Setup
 
 This project is containerized with Docker to run both the Flask application and MySQL database in isolated environments.
-1. Build the Docker containers:
+Build the Docker containers:
 
-docker-compose build
+    docker-compose build
 
-2. Run the containers:
+Run the containers:
 
-docker-compose up
+    docker-compose up
 
 This will start both the Flask app (on port 8080) and the MySQL database (on port 3307).

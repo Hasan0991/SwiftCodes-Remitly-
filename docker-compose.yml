@@ -1,7 +1,31 @@
+version: '3.8'
+
 services:
+  # The app service for the Flask application
   app:
     build: .
     ports:
-      - "8080:8080"
+      - "8080:8080"  # Expose Flask app on port 8080
     volumes:
-      - .:/app
+      - .:/app  # Mount the current directory to the container
+    depends_on:
+      - db  # Ensure the MySQL container starts before the app
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: hasan099  # Password you want for your MySQL
+      DB_NAME: swift
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: hasan099  # Same password as in the app
+      MYSQL_DATABASE: swift  # Database name
+    volumes:
+      - db_data:/var/lib/mysql  # Persist MySQL data
+    ports:
+      - "3307:3306"  # Expose MySQL to your system if needed (for local access)
+
+volumes:
+  db_data:

@@ -55,7 +55,7 @@ def insert_data(data):
     for item in data:
         cursor.execute("""
                 INSERT INTO swift_codes (swiftCode, bankName, countryISO2, countryName, address, isHeadquarter)
-                VALUES (%s, %s, %s, %s, %s, %b)
+                VALUES (%s, %s, %s, %s, %s, %s)
             """, (item['swiftCode'], item['bankName'], item['countryISO2'], item['countryName'], item['address'],
                   item['isHeadquarter']))
     connection.commit()
